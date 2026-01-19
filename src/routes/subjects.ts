@@ -11,8 +11,8 @@ subjectsRouter.get('/', async (req,res) => {
     try {
         const {search , department, page = 1, limit = 10} = req.query;
 
-        const currentPage = Math.max(1, + page);
-        const limitPerPage = Math.max(1, + limit);
+         const currentPage = Math.max(1, Number(Array.isArray(page) ? page[0] : page) || 1);
+         const limitPerPage = Math.max(1, Number(Array.isArray(limit) ? limit[0] : limit) || 10);
 
         const offset = (currentPage - 1) * limitPerPage;
 
@@ -37,7 +37,7 @@ subjectsRouter.get('/', async (req,res) => {
 
         const countResult = await db.select({ count: sql<number>`count(*)` }).from(subjects).leftJoin(departments, eq(subjects.departmentId, departments.id)).where(whereClause);
 
-        const totalCount = countResult[0]?.count ?? 0;
+         const totalCount = Number(countResult[0]?.count) || 0;
 
         const subjectList = await db
             .select({
