@@ -15,6 +15,20 @@
       "when": 1768632230648,
       "tag": "0001_violet_vulture",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1769402943478,
+      "tag": "0002_yummy_shadow_king",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1769402990458,
+      "tag": "0003_tidy_joystick",
+      "breakpoints": true
     }
   ]
 }
