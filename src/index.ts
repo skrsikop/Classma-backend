@@ -4,10 +4,12 @@ AgentAPI.config()
 import express  from 'express';
 import 'dotenv/config';
 import subjectsRouter from './routes/subjects.js';
+import UserRouter from './routes/users.js';
 import cors from 'cors'
 import securityMiddleware from './middleware/security.js';
 import { auth } from './lib/auth.js';
 import {toNodeHandler} from 'better-auth/node';
+import ClassesRouter from './routes/classes.js';
 
 const app = express();
 const port = 8000;
@@ -29,6 +31,8 @@ app.use(express.json());
 app.use(securityMiddleware)
 
 app.use('/api/subjects', subjectsRouter)
+app.use('/api/users', UserRouter)
+app.use('/api/classes', ClassesRouter)
 app.get("/", (req, res) => {
     res.send("Hello from backend!");
 });

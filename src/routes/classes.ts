@@ -1,0 +1,24 @@
+import { classes } from '../db/schema/index.js';
+import { db } from './../db/index.js';
+import express from 'express';
+
+const ClassesRouter = express.Router()
+
+ClassesRouter.post('/', async(req,res) => {
+    try {
+
+        const [createdClass] = await db
+            .insert(classes)
+            .values({...req.body, inviteCode: Math.random().toString(36).substring(2, 9), schedules: []})
+            .returning({id: classes.id})
+
+        if(!createdClass) throw Error;
+        
+        res.status(201).json({data: createdClass})
+    } catch (error) {
+        console.error('Post /classes error', error);
+        res.status(500).json({error: error});
+    }
+})
+
+export default ClassesRouter;
