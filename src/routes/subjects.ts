@@ -65,4 +65,31 @@ subjectsRouter.get('/', async (req,res) => {
     }
 })
 
+// Create a new subject
+subjectsRouter.post('/', async (req, res) => {
+    try {
+        const { departmentId, name, code, description } = req.body;
+
+        if (!departmentId || !name || !code) {
+            return res.status(400).json({ error: 'Missing required fields' });
+        }
+
+        const [created] = await db.insert(subjects).values({
+            departmentId,
+            name,
+            code,
+            description
+        }).returning({ id: subjects.id, name: subjects.name, code: subjects.code, departmentId: subjects.departmentId, description: subjects.description });
+
+        if (!created) {
+            return res.status(500).json({ error: 'Failed to create subject' });
+        }
+
+        res.status(201).json({ data: created });
+    } catch (error) {
+        console.error('POST /subjects error:', error);
+        res.status(500).json({ error: 'Failed to create subject' });
+    }
+})
+
 export default subjectsRouter
